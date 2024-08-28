@@ -30,9 +30,10 @@ public class Schedule extends Timestamped {
         this.content = content;
     }
 
-    public void update(String name, String title) {
+    public void update(String name, String title, String content) {
         this.name = name;
         this.title = title;
+        this.content = content;
     }
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)

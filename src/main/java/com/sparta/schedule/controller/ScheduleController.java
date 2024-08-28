@@ -28,7 +28,7 @@ public class ScheduleController {
     // 일정 전체 조회
     @GetMapping("/schedules")
     public ResponseEntity<Page<ScheduleSimpleResponseDto>> getSchedules(
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size
     ) {
         return ResponseEntity.ok(scheduleService.getSchedules(page, size));
     }

@@ -26,15 +26,15 @@ public class ScheduleService {
     // 일정 저장
     @Transactional
     public ScheduleSaveResponseDto saveSchedule(ScheduleSaveRequestDto requestDto) {
-        Schedule Schedule = new Schedule(requestDto.getName(), requestDto.getTitle(), requestDto.getContent());
-        Schedule savedSchedule = scheduleRepository.save(Schedule);
+        Schedule schedule = new Schedule(requestDto.getName(), requestDto.getTitle(), requestDto.getContent());
+        Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return ScheduleSaveResponseDto.entityToDto(savedSchedule);
     }
 
     // 일정 전체 조회
     public Page<ScheduleSimpleResponseDto> getSchedules(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("updatedDate").descending());
+        Pageable pageable = PageRequest.of(page -1, size, Sort.by("updatedDate").descending());
         Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
         return schedulePage.map(ScheduleSimpleResponseDto::entityToDto);
     }
@@ -53,7 +53,9 @@ public class ScheduleService {
 
         schedule.update(
                 requestDto.getName(),
+                requestDto.getTitle(),
                 requestDto.getContent()
+
         );
 
         return ScheduleUpdateResponseDto.entityToDto(schedule);

@@ -18,7 +18,7 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule")
     private Schedule schedule;
 

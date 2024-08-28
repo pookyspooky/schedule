@@ -22,8 +22,8 @@ public class UserController {
 
     // 유저 저장
     @PostMapping("/users")
-    public ResponseEntity<UserSaveResponseDto> saveUser (@RequestBody UserSaveRequestDto requsetDto) {
-        return ResponseEntity.ok(userService.saveUser(requsetDto));
+    public ResponseEntity<UserSaveResponseDto> saveUser (@RequestBody UserSaveRequestDto requestDto) {
+        return ResponseEntity.ok(userService.saveUser(requestDto));
     }
 
     // 유저 전체 조회
@@ -37,7 +37,6 @@ public class UserController {
     public ResponseEntity<UserDatailResponseDto> getUser(@PathVariable Long usersId) {
         return ResponseEntity.ok(userService.getUser(usersId));
     }
-
 
     // 유저 수정
     @PutMapping("/users/{usersId}")

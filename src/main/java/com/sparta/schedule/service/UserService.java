@@ -23,8 +23,8 @@ public class UserService {
 
     // 유저 저장
     @Transactional
-    public UserSaveResponseDto saveUser(UserSaveRequestDto requsetDto) {
-        User user = new User(requsetDto.getUsername(), requsetDto.getEmail());
+    public UserSaveResponseDto saveUser(UserSaveRequestDto requestDto) {
+        User user = new User(requestDto.getUsername(), requestDto.getEmail());
         User savedUser = userRepository.save(user);
 
         return UserSaveResponseDto.entityToDto(savedUser);

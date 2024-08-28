@@ -6,8 +6,13 @@ import com.sparta.schedule.dto.schedule.response.ScheduleDatailResponseDto;
 import com.sparta.schedule.dto.schedule.response.ScheduleSaveResponseDto;
 import com.sparta.schedule.dto.schedule.response.ScheduleSimpleResponseDto;
 import com.sparta.schedule.dto.schedule.response.ScheduleUpdateResponseDto;
+import com.sparta.schedule.dto.user.response.UserDatailResponseDto;
+import com.sparta.schedule.entity.Intermediate;
 import com.sparta.schedule.entity.Schedule;
+import com.sparta.schedule.entity.User;
+import com.sparta.schedule.repository.IntermediateRepository;
 import com.sparta.schedule.repository.ScheduleRepository;
+import com.sparta.schedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,18 +21,27 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final IntermediateRepository intermediateRepository;
+    private final UserRepository userRepository;
 
     // 일정 저장
     @Transactional
     public ScheduleSaveResponseDto saveSchedule(ScheduleSaveRequestDto requestDto) {
-        Schedule schedule = new Schedule(requestDto.getName(), requestDto.getTitle(), requestDto.getContent());
+        Schedule schedule = new Schedule(requestDto.getUserId(), requestDto.getTitle(), requestDto.getContent());
         Schedule savedSchedule = scheduleRepository.save(schedule);
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("찾을 수 없습니ㅏ."));
+
+        Intermediate intermediate = new Intermediate(savedSchedule, user);
+        intermediateRepository.save(intermediate);
 
         return ScheduleSaveResponseDto.entityToDto(savedSchedule);
     }
@@ -41,9 +55,17 @@ public class ScheduleService {
 
     // 일정 단건 조회
     public ScheduleDatailResponseDto getSchedule(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("찾을 수 없습니다."));
+        List<Intermediate> intermediates = intermediateRepository.findAllBySchedule(schedule);
+        List<User> users = intermediates.stream().map(Intermediate::getUser).toList();
+        List<UserDatailResponseDto> responseDto = users.stream().map(UserDatailResponseDto::new).toList();
 
-        return ScheduleDatailResponseDto.entityToDto(schedule);
+        return ScheduleDatailResponseDto.entityToDto(schedule,responseDto);
+
+
+//        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
+
+//        return ScheduleDatailResponseDto.entityToDto(schedule);
     }
 
     // 일정 수정
@@ -52,7 +74,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
 
         schedule.update(
-                requestDto.getName(),
+                requestDto.getUserId(),
                 requestDto.getTitle(),
                 requestDto.getContent()
 

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScheduleSaveResponseDto {
     private final Long id;
-    private final String name;
+    private final Long userId;
     private final String title;
     private final String content;
     private final LocalDateTime createdDate;
@@ -19,7 +19,7 @@ public class ScheduleSaveResponseDto {
     public static ScheduleSaveResponseDto entityToDto(Schedule schedule) {
         return new ScheduleSaveResponseDto(
                 schedule.getId(),
-                schedule.getName(),
+                schedule.getUserId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getCreatedDate(),

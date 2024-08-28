@@ -17,26 +17,30 @@ public class Schedule extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
     @Column(name = "title", nullable = false)
     private String title;
     @Column(name = "content", nullable = false, length = 500)
     private String content;
 
-    public Schedule(String name, String title, String content) {
-        this.name = name;
+    public Schedule(Long userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
     }
 
-    public void update(String name, String title, String content) {
-        this.name = name;
+    public void update(Long userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
     }
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
+    private List<Intermediate> intermediateList = new ArrayList<>();
 
 }

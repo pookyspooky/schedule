@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -61,11 +60,6 @@ public class ScheduleService {
         List<UserDatailResponseDto> responseDto = users.stream().map(UserDatailResponseDto::new).toList();
 
         return ScheduleDatailResponseDto.entityToDto(schedule,responseDto);
-
-
-//        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
-
-//        return ScheduleDatailResponseDto.entityToDto(schedule);
     }
 
     // 일정 수정

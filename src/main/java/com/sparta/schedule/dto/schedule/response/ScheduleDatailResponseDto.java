@@ -17,7 +17,7 @@ public class ScheduleDatailResponseDto {
     private final String content;
     private final LocalDateTime createdDate;
     private final LocalDateTime updatedDate;
-    List<UserDatailResponseDto> userDatailResponseDtoList;
+    private final List<UserDatailResponseDto> userDatailResponseDtoList;
 
     public static ScheduleDatailResponseDto entityToDto(Schedule schedule, List<UserDatailResponseDto> userDatailResponseDtoList) {
         return new ScheduleDatailResponseDto(

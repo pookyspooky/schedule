@@ -1,7 +1,8 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.comment.response.CommentSimpleResponseDto;
-import com.sparta.schedule.dto.user.requset.UserSaveRequsetDto;
+import com.sparta.schedule.dto.user.requset.UserSaveRequestDto;
+import com.sparta.schedule.dto.user.requset.UserUpdateRequestDtp;
+import com.sparta.schedule.dto.user.response.UesrUpdateResponsDto;
 import com.sparta.schedule.dto.user.response.UserDatailResponseDto;
 import com.sparta.schedule.dto.user.response.UserSaveResponseDto;
 import com.sparta.schedule.dto.user.response.UserSimpleResponseDto;
@@ -22,7 +23,7 @@ public class UserService {
 
     // 유저 저장
     @Transactional
-    public UserSaveResponseDto saveUser(UserSaveRequsetDto requsetDto) {
+    public UserSaveResponseDto saveUser(UserSaveRequestDto requsetDto) {
         User user = new User(requsetDto.getUsername(), requsetDto.getEmail());
         User savedUser = userRepository.save(user);
 
@@ -48,9 +49,22 @@ public class UserService {
         return UserDatailResponseDto.entityToDto(user);
     }
 
-
     // 유저 수정
+    public UesrUpdateResponsDto updateUser(Long usersId, UserUpdateRequestDtp requestDtp) {
+        User user = userRepository.findById(usersId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
 
+        user.update(
+                requestDtp.getUsername(),
+                requestDtp.getEmail()
+        );
+
+        return UesrUpdateResponsDto.entityToDto(user);
+    }
 
     // 유저 삭제
+    public void deleteUser(Long usersId) {
+        User user = userRepository.findById(usersId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
+
+        userRepository.delete(user);
+    }
 }

@@ -1,6 +1,8 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.user.requset.UserSaveRequsetDto;
+import com.sparta.schedule.dto.user.requset.UserSaveRequestDto;
+import com.sparta.schedule.dto.user.requset.UserUpdateRequestDtp;
+import com.sparta.schedule.dto.user.response.UesrUpdateResponsDto;
 import com.sparta.schedule.dto.user.response.UserDatailResponseDto;
 import com.sparta.schedule.dto.user.response.UserSaveResponseDto;
 import com.sparta.schedule.dto.user.response.UserSimpleResponseDto;
@@ -20,7 +22,7 @@ public class UserController {
 
     // 유저 저장
     @PostMapping("/users")
-    public ResponseEntity<UserSaveResponseDto> saveUser (@RequestBody UserSaveRequsetDto requsetDto) {
+    public ResponseEntity<UserSaveResponseDto> saveUser (@RequestBody UserSaveRequestDto requsetDto) {
         return ResponseEntity.ok(userService.saveUser(requsetDto));
     }
 
@@ -38,7 +40,14 @@ public class UserController {
 
 
     // 유저 수정
-
+    @PutMapping("/users/{usersId}")
+    public ResponseEntity<UesrUpdateResponsDto> updateUser(@PathVariable Long usersId, @RequestBody UserUpdateRequestDtp requestDtp) {
+        return ResponseEntity.ok(userService.updateUser(usersId, requestDtp));
+    }
 
     // 유저 삭제
+    @DeleteMapping("/users/{usersId}")
+    public void deleteUser(@PathVariable Long usersId) {userService.deleteUser(usersId);
+    }
 }
+

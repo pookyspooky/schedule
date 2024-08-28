@@ -1,7 +1,7 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.comment.requset.CommentSaveRequsetDto;
-import com.sparta.schedule.dto.comment.requset.CommentUpdateRequsetDto;
+import com.sparta.schedule.dto.comment.requset.CommentSaveRequestDto;
+import com.sparta.schedule.dto.comment.requset.CommentUpdateRequestDto;
 import com.sparta.schedule.dto.comment.response.CommentDatailResponseDto;
 import com.sparta.schedule.dto.comment.response.CommentSaveResponseDto;
 import com.sparta.schedule.dto.comment.response.CommentSimpleResponseDto;
@@ -27,9 +27,9 @@ public class CommentService {
 
     // 댓글 저장
     @Transactional
-    public CommentSaveResponseDto saveComment(Long scheduleId, CommentSaveRequsetDto requsetDto) {
+    public CommentSaveResponseDto saveComment(Long scheduleId, CommentSaveRequestDto requestDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
-        Comment comment = new Comment(requsetDto.getComment(), requsetDto.getUsername(), schedule);
+        Comment comment = new Comment(requestDto.getComment(), requestDto.getUsername(), schedule);
         Comment savedComment = commentRepository.save(comment);
 
         return CommentSaveResponseDto.entityToDto(savedComment);
@@ -56,12 +56,12 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public CommentUpdateResponseDto updateComment(Long commentId, CommentUpdateRequsetDto requsetDto) {
+    public CommentUpdateResponseDto updateComment(Long commentId, CommentUpdateRequestDto requestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new NullPointerException("찾을 수 없습니다."));
 
         comment.update(
-                requsetDto.getComment(),
-                requsetDto.getUsername()
+                requestDto.getComment(),
+                requestDto.getUsername()
         );
         return CommentUpdateResponseDto.entityToDto(comment);
     }

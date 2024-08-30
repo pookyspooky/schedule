@@ -1,8 +1,8 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.user.requset.UserSaveRequestDto;
-import com.sparta.schedule.dto.user.requset.UserUpdateRequestDtp;
-import com.sparta.schedule.dto.user.response.UesrUpdateResponsDto;
+import com.sparta.schedule.dto.user.request.UserSaveRequestDto;
+import com.sparta.schedule.dto.user.request.UserUpdateRequestDtp;
+import com.sparta.schedule.dto.user.response.UesrUpdateResponseDto;
 import com.sparta.schedule.dto.user.response.UserDatailResponseDto;
 import com.sparta.schedule.dto.user.response.UserSaveResponseDto;
 import com.sparta.schedule.dto.user.response.UserSimpleResponseDto;
@@ -40,7 +40,7 @@ public class UserController {
 
     // 유저 수정
     @PutMapping("/users/{usersId}")
-    public ResponseEntity<UesrUpdateResponsDto> updateUser(@PathVariable Long usersId, @RequestBody UserUpdateRequestDtp requestDtp) {
+    public ResponseEntity<UesrUpdateResponseDto> updateUser(@PathVariable Long usersId, @RequestBody UserUpdateRequestDtp requestDtp) {
         return ResponseEntity.ok(userService.updateUser(usersId, requestDtp));
     }
 

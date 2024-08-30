@@ -1,8 +1,8 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.user.requset.UserSaveRequestDto;
-import com.sparta.schedule.dto.user.requset.UserUpdateRequestDtp;
-import com.sparta.schedule.dto.user.response.UesrUpdateResponsDto;
+import com.sparta.schedule.dto.user.request.UserSaveRequestDto;
+import com.sparta.schedule.dto.user.request.UserUpdateRequestDtp;
+import com.sparta.schedule.dto.user.response.UesrUpdateResponseDto;
 import com.sparta.schedule.dto.user.response.UserDatailResponseDto;
 import com.sparta.schedule.dto.user.response.UserSaveResponseDto;
 import com.sparta.schedule.dto.user.response.UserSimpleResponseDto;
@@ -50,7 +50,8 @@ public class UserService {
     }
 
     // 유저 수정
-    public UesrUpdateResponsDto updateUser(Long usersId, UserUpdateRequestDtp requestDtp) {
+    @Transactional
+    public UesrUpdateResponseDto updateUser(Long usersId, UserUpdateRequestDtp requestDtp) {
         User user = userRepository.findById(usersId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
 
         user.update(
@@ -58,10 +59,11 @@ public class UserService {
                 requestDtp.getEmail()
         );
 
-        return UesrUpdateResponsDto.entityToDto(user);
+        return UesrUpdateResponseDto.entityToDto(user);
     }
 
     // 유저 삭제
+    @Transactional
     public void deleteUser(Long usersId) {
         User user = userRepository.findById(usersId).orElseThrow(() -> new NullPointerException("찾을 수 없습니다."));
 

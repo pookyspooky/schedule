@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UesrUpdateResponsDto {
+public class UesrUpdateResponseDto {
     private final Long id;
     private final String username;
     private final String email;
 
-    public static UesrUpdateResponsDto entityToDto(User user) {
-        return new UesrUpdateResponsDto(user.getId(), user.getUsername(), user.getEmail());
+    public static UesrUpdateResponseDto entityToDto(User user) {
+        return new UesrUpdateResponseDto(user.getId(), user.getUsername(), user.getEmail());
     }
 }
